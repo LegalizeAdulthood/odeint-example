@@ -16,7 +16,7 @@ include(CTest)
 add_subdirectory(libs)
 add_subdirectory(tools)
 
-vs_startup_project(project-template)
+vs_startup_project("chaotic-attractor")
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
