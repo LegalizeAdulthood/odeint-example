@@ -34,7 +34,9 @@ jobs:
       shell: bash
       run: |
         ${{github.workspace}}/vcpkg/bootstrap-vcpkg.sh
+        sudo apt-get update
         sudo apt install mono-complete
+        sed 's/#.*//' ${{github.workspace}}/.github/workflows/wx-requirements.txt | xargs sudo apt-get install
 
     - name: Install Prerequisites macOS
       if: ${{matrix.os == 'macos-latest'}}
