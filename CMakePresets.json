@@ -13,6 +13,14 @@
       "binaryDir": "${sourceDir}/../build-${sourceDirName}-${presetName}"
     },
     {
+      "name": "vcpkg-debug",
+      "hidden": true,
+      "description": "Enable debugging of vcpkg",
+      "cacheVariables": {
+        "VCPKG_INSTALL_OPTIONS": "--debug"
+      }
+    },
+    {
       "name": "project-name",
       "hidden": true,
       "description": "Set the project name from the preset name",
@@ -29,7 +37,7 @@
     {
       "name": "default",
       "displayName": "Configure with default settings",
-      "inherits": [ "sibling-build-preset", "vcpkg", "project-name" ]
+      "inherits": [ "sibling-build-preset", "vcpkg", "project-name", "vcpkg-debug" ]
     }
   ],
   "buildPresets": [
