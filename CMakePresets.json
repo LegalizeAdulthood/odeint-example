@@ -37,7 +37,7 @@
     {
       "name": "default",
       "displayName": "Configure with default settings",
-      "inherits": [ "sibling-build-preset", "vcpkg", "project-name", "vcpkg-debug" ]
+      "inherits": [ "sibling-build-preset", "vcpkg", "project-name" ]
     }
   ],
   "buildPresets": [
