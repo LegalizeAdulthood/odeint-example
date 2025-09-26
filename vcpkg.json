@@ -6,7 +6,9 @@
   "dependencies": [
     "boost-odeint",
     "glad",
+    "glm",
     "gtest",
+    "opengl",
     "wxwidgets"
   ]
 }
