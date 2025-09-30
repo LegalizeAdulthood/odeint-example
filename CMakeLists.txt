@@ -9,7 +9,7 @@ include(vs_startup_project)
 set_cxx_standard(17)
 
 set(ODEINT_PROJECT_NAME "Odeint Example" CACHE "STRING" "Default project name for IDEs")
-project("${ODEINT_PROJECT_NAME}" CXX CUDA)
+project("${ODEINT_PROJECT_NAME}" CXX)
 
 include(CTest)
 
