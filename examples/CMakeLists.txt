@@ -28,8 +28,3 @@ add_boost_example(4 van_der_pol_stiff)
 # Corrected version of boost example
 add_odeint_example("example-2-chaotic_system" "chaotic_system.cpp" "Examples")
 target_include_directories("example-2-chaotic_system" PRIVATE . "${ODEINT_EXAMPLES_DIR}")
-
-if(CMAKE_CUDA_COMPILER)
-    enable_language(CUDA)
-    #add_boost_cuda_example(1 lorenz_parameters)
-endif()
