@@ -1,11 +1,19 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
 namespace dynamical_system
 {
 
-using RosslerState = std::array<double, 3>;
+enum class System
+{
+    NONE = 0,
+    LORENZ = 1,
+    ROSSLER = 2
+};
+
+using Point3d = std::array<double, 3>;
 
 struct Rossler
 {
@@ -16,7 +24,7 @@ struct Rossler
     {
     }
 
-    void operator()(const RosslerState &x, RosslerState &dx_dt, double /* t */) const
+    void operator()(const Point3d &x, Point3d &dx_dt, double /* t */) const
     {
         dx_dt[0] = -x[1] - x[2];
         dx_dt[1] = x[0] + a * x[1];
@@ -28,8 +36,6 @@ struct Rossler
     double c;
 };
 
-using LorenzState = std::array<double, 3>;
-
 struct Lorenz
 {
     explicit Lorenz(double sigma = 10.0, double rho = 28.0, double beta = 8.0 / 3.0) :
@@ -39,7 +45,7 @@ struct Lorenz
     {
     }
 
-    void operator()(const LorenzState &x, LorenzState &dx_dt, double /* t */) const
+    void operator()(const Point3d &x, Point3d &dx_dt, double /* t */) const
     {
         dx_dt[0] = sigma * (x[1] - x[0]);
         dx_dt[1] = x[0] * (rho - x[2]) - x[1];
@@ -50,5 +56,9 @@ struct Lorenz
     double rho;
     double beta;
 };
+
+using Orbit = std::vector<Point3d>;
+
+Orbit iterate(System system, const Point3d &initial, double dt, int steps);
 
 } // namespace dynamical_system

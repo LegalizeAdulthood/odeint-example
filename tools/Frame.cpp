@@ -29,9 +29,9 @@ Frame::Frame(const wxString &title) :
     menu_bar->Append(iterate, "&Iterate");
     wxFrameBase::SetMenuBar(menu_bar);
     Bind(wxEVT_MENU, &Frame::on_exit, this, wxID_EXIT);
-    Bind(wxEVT_IDLE, &Frame::on_idle, this, wxID_ANY);
+    Bind(wxEVT_IDLE, &Frame::on_idle, this);
 
-    set_system(System::NONE);
+    set_system(dynamical_system::System::NONE);
     set_iterating(false);
 }
 
@@ -42,21 +42,27 @@ void Frame::on_exit(wxCommandEvent &event)
 
 void Frame::on_idle(wxIdleEvent &event)
 {
+    if (m_iterating)
+    {
+        dynamical_system::Orbit orbit{dynamical_system::iterate(m_system, {0.1, 0.0, 0.0}, 0.01, 10)};
+        m_canvas->Refresh(false);
+    }
+    event.RequestMore();
 }
 
 void Frame::on_none(wxCommandEvent &event)
 {
-    set_system(System::NONE);
+    set_system(dynamical_system::System::NONE);
 }
 
 void Frame::on_lorenz(wxCommandEvent &event)
 {
-    set_system(System::LORENZ);
+    set_system(dynamical_system::System::LORENZ);
 }
 
 void Frame::on_rossler(wxCommandEvent &event)
 {
-    set_system(System::ROSSLER);
+    set_system(dynamical_system::System::ROSSLER);
 }
 
 void Frame::on_start(wxCommandEvent &event)
@@ -69,22 +75,22 @@ void Frame::on_stop(wxCommandEvent &event)
     set_iterating(false);
 }
 
-void Frame::set_system(System system)
+void Frame::set_system( dynamical_system::System system )
 {
     m_system = system;
     switch (m_system)
     {
-    case System::NONE:
+    case dynamical_system::System::NONE:
         m_none->Check(true);
         m_lorenz->Check(false);
         m_rossler->Check(false);
         break;
-    case System::LORENZ:
+    case dynamical_system::System::LORENZ:
         m_none->Check(false);
         m_lorenz->Check(true);
         m_rossler->Check(false);
         break;
-    case System::ROSSLER:
+    case dynamical_system::System::ROSSLER:
         m_none->Check(false);
         m_lorenz->Check(false);
         m_rossler->Check(true);

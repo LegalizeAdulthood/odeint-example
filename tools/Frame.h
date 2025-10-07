@@ -1,3 +1,5 @@
+#include <dynamical-system/dynamical-system.h>
+
 #include <wx/wx.h>
 
 #include <memory>
@@ -6,13 +8,6 @@ namespace chaotic_attractor
 {
 
 class Canvas;
-
-enum class System
-{
-    NONE = 0,
-    LORENZ = 1,
-    ROSSLER = 2
-};
 
 class Frame : public wxFrame
 {
@@ -27,7 +22,7 @@ private:
     void on_rossler(wxCommandEvent &event);
     void on_start(wxCommandEvent &event);
     void on_stop(wxCommandEvent &event);
-    void set_system(System system);
+    void set_system(dynamical_system::System system);
     void set_iterating(bool iterating);
 
     wxMenuItem *m_none;
@@ -36,7 +31,7 @@ private:
     wxMenuItem *m_run;
     wxMenuItem *m_stop;
     Canvas *m_canvas;
-    System m_system{System::NONE};
+    dynamical_system::System m_system{dynamical_system::System::NONE};
     bool m_iterating{};
 };
 
