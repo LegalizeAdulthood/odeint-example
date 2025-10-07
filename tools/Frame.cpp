@@ -21,14 +21,52 @@ Frame::Frame(const wxString &title) :
     m_rossler = attractor->AppendCheckItem(wxID_ANY, "&Rossler", "Rossler attractor");
     Bind(wxEVT_MENU, &Frame::on_rossler, this, m_rossler->GetId());
     menu_bar->Append(attractor, "&Attractor");
+    wxMenu *iterate = new wxMenu;
+    m_run = iterate->Append(wxID_ANY, "&Run", "Start iterating");
+    Bind(wxEVT_MENU, &Frame::on_start, this, m_run->GetId());
+    m_stop = iterate->Append(wxID_ANY, "&Stop", "Stop iterating");
+    Bind(wxEVT_MENU, &Frame::on_stop, this, m_stop->GetId());
+    menu_bar->Append(iterate, "&Iterate");
     wxFrameBase::SetMenuBar(menu_bar);
     Bind(wxEVT_MENU, &Frame::on_exit, this, wxID_EXIT);
+    Bind(wxEVT_IDLE, &Frame::on_idle, this, wxID_ANY);
+
     set_system(System::NONE);
+    set_iterating(false);
 }
 
 void Frame::on_exit(wxCommandEvent &event)
 {
     Close(true);
+}
+
+void Frame::on_idle(wxIdleEvent &event)
+{
+}
+
+void Frame::on_none(wxCommandEvent &event)
+{
+    set_system(System::NONE);
+}
+
+void Frame::on_lorenz(wxCommandEvent &event)
+{
+    set_system(System::LORENZ);
+}
+
+void Frame::on_rossler(wxCommandEvent &event)
+{
+    set_system(System::ROSSLER);
+}
+
+void Frame::on_start(wxCommandEvent &event)
+{
+    set_iterating(true);
+}
+
+void Frame::on_stop(wxCommandEvent &event)
+{
+    set_iterating(false);
 }
 
 void Frame::set_system(System system)
@@ -54,19 +92,11 @@ void Frame::set_system(System system)
     }
 }
 
-void Frame::on_none(wxCommandEvent &event)
+void Frame::set_iterating(bool iterating)
 {
-    set_system(System::NONE);
-}
-
-void Frame::on_lorenz(wxCommandEvent &event)
-{
-    set_system(System::LORENZ);
-}
-
-void Frame::on_rossler(wxCommandEvent &event)
-{
-    set_system(System::ROSSLER);
+    m_iterating = iterating;
+    m_run->Enable(!m_iterating);
+    m_stop->Enable(m_iterating);
 }
 
 } // namespace chaotic_attractor
