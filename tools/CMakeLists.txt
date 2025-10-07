@@ -5,6 +5,7 @@ find_package(wxWidgets CONFIG REQUIRED)
 
 add_executable("chaotic-attractor"
     Canvas.h Canvas.cpp
+    Frame.h Frame.cpp
     main.cpp)
 target_link_libraries("chaotic-attractor" PUBLIC "dynamical-system" OpenGL::GL glm::glm-header-only glad::glad wx::wxgl wx::core wx::base)
 set_target_properties("chaotic-attractor" PROPERTIES WIN32_EXECUTABLE $<PLATFORM_ID:Windows>)
