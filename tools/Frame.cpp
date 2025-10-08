@@ -2,8 +2,34 @@
 
 #include "Canvas.h"
 
+#include <algorithm>
+#include <iterator>
+
 namespace chaotic_attractor
 {
+
+void DynamicalSystem::reset(dynamical_system::Attractor value)
+{
+    attractor = value;
+    orbit.clear();
+    state = {0.1f, 0.0f, 0.0f};
+    begin = 0.0f;
+    end = 10.0f;
+    dt = 0.1f;
+}
+
+void DynamicalSystem::iterate()
+{
+    const dynamical_system::Orbit chunk{dynamical_system::iterate(attractor, state, begin, end, dt)};
+    if (orbit.size() > 10'000)
+    {
+        orbit.erase(orbit.begin(), orbit.begin() + chunk.size());
+    }
+    std::copy(chunk.begin(), chunk.end(), std::back_inserter(orbit));
+    state = orbit.back();
+    begin = end;
+    end += 10.0f;
+}
 
 Frame::Frame(const wxString &title) :
     wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)),
@@ -31,7 +57,7 @@ Frame::Frame(const wxString &title) :
     Bind(wxEVT_MENU, &Frame::on_exit, this, wxID_EXIT);
     Bind(wxEVT_IDLE, &Frame::on_idle, this);
 
-    set_system(dynamical_system::System::NONE);
+    set_system(dynamical_system::Attractor::NONE);
     set_iterating(false);
 }
 
@@ -44,12 +70,8 @@ void Frame::on_idle(wxIdleEvent &event)
 {
     if (m_iterating)
     {
-        dynamical_system::Point3f state{0.1f, 0.0f, 0.0f};
-        float begin{0.0f};
-        float end{10.0f};
-        float dt{0.1f};
-        dynamical_system::Orbit orbit{dynamical_system::iterate(m_system, state, begin, end, dt)};
-        m_canvas->set_orbit(orbit);
+        m_sys.iterate();
+        m_canvas->set_orbit(m_sys.orbit);
         m_canvas->Refresh(false);
     }
     event.RequestMore();
@@ -57,17 +79,17 @@ void Frame::on_idle(wxIdleEvent &event)
 
 void Frame::on_none(wxCommandEvent &event)
 {
-    set_system(dynamical_system::System::NONE);
+    set_system(dynamical_system::Attractor::NONE);
 }
 
 void Frame::on_lorenz(wxCommandEvent &event)
 {
-    set_system(dynamical_system::System::LORENZ);
+    set_system(dynamical_system::Attractor::LORENZ);
 }
 
 void Frame::on_rossler(wxCommandEvent &event)
 {
-    set_system(dynamical_system::System::ROSSLER);
+    set_system(dynamical_system::Attractor::ROSSLER);
 }
 
 void Frame::on_start(wxCommandEvent &event)
@@ -80,22 +102,22 @@ void Frame::on_stop(wxCommandEvent &event)
     set_iterating(false);
 }
 
-void Frame::set_system( dynamical_system::System system )
+void Frame::set_system(dynamical_system::Attractor attractor)
 {
-    m_system = system;
-    switch (m_system)
+    m_sys.reset(attractor);
+    switch (attractor)
     {
-    case dynamical_system::System::NONE:
+    case dynamical_system::Attractor::NONE:
         m_none->Check(true);
         m_lorenz->Check(false);
         m_rossler->Check(false);
         break;
-    case dynamical_system::System::LORENZ:
+    case dynamical_system::Attractor::LORENZ:
         m_none->Check(false);
         m_lorenz->Check(true);
         m_rossler->Check(false);
         break;
-    case dynamical_system::System::ROSSLER:
+    case dynamical_system::Attractor::ROSSLER:
         m_none->Check(false);
         m_lorenz->Check(false);
         m_rossler->Check(true);

@@ -5,7 +5,7 @@
 namespace dynamical_system
 {
 
-Orbit iterate( System system, const Point3f &initial, float begin, float end, float dt )
+Orbit iterate( Attractor system, const Point3f &initial, float begin, float end, float dt )
 {
     Orbit orbit;
     const auto push_point = [&orbit](const Point3f &x, const float /* t */)
@@ -16,17 +16,17 @@ Orbit iterate( System system, const Point3f &initial, float begin, float end, fl
     Point3f state{initial};
     switch (system)
     {
-    case System::NONE:
+    case Attractor::NONE:
         break;
 
-    case System::LORENZ:
+    case Attractor::LORENZ:
     {
         Lorenz lorenz;
         boost::numeric::odeint::integrate(lorenz, state, begin, end, dt, push_point);
         break;
     }
 
-    case System::ROSSLER:
+    case Attractor::ROSSLER:
     {
         Rossler rossler;
         boost::numeric::odeint::integrate(rossler, state, begin, end, dt, push_point);

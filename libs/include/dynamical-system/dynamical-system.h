@@ -6,7 +6,7 @@
 namespace dynamical_system
 {
 
-enum class System
+enum class Attractor
 {
     NONE = 0,
     LORENZ = 1,
@@ -59,6 +59,6 @@ struct Lorenz
 
 using Orbit = std::vector<Point3f>;
 
-Orbit iterate(System system, const Point3f &initial, float begin, float end, float dt);
+Orbit iterate(Attractor system, const Point3f &initial, float begin, float end, float dt);
 
 } // namespace dynamical_system

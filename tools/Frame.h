@@ -11,6 +11,19 @@ namespace chaotic_attractor
 
 class Canvas;
 
+struct DynamicalSystem
+{
+    void reset(dynamical_system::Attractor value);
+    void iterate();
+
+    dynamical_system::Attractor attractor{dynamical_system::Attractor::NONE};
+    dynamical_system::Point3f state{0.1f, 0.0f, 0.0f};
+    float begin{0.0f};
+    float end{10.0f};
+    float dt{0.1f};
+    dynamical_system::Orbit orbit;
+};
+
 class Frame : public wxFrame
 {
 public:
@@ -24,7 +37,7 @@ private:
     void on_rossler(wxCommandEvent &event);
     void on_start(wxCommandEvent &event);
     void on_stop(wxCommandEvent &event);
-    void set_system(dynamical_system::System system);
+    void set_system( dynamical_system::Attractor attractor );
     void set_iterating(bool iterating);
 
     wxMenuItem *m_none;
@@ -33,8 +46,8 @@ private:
     wxMenuItem *m_run;
     wxMenuItem *m_stop;
     Canvas *m_canvas;
-    dynamical_system::System m_system{dynamical_system::System::NONE};
     bool m_iterating{};
+    DynamicalSystem m_sys;
 };
 
 } // namespace chaotic_attractor
