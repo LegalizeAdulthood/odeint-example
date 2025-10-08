@@ -83,6 +83,12 @@ void Canvas::init_gl()
 {
     // only doing line drawing, not triangles
     glDisable(GL_LIGHTING);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glLineWidth(0.5f);
+    glDepthMask(GL_FALSE);
 }
 
 void Canvas::reset_view()
@@ -155,7 +161,6 @@ void Canvas::render()
     }
     glTranslatef(-center(0), -center(1), -center(2));
 
-    glLineWidth(1.0f);
     glBegin(GL_LINE_STRIP);
     glColor3f(1.0f, 1.0f, 1.0f);
     for (const auto &p : m_orbit)
