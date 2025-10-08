@@ -44,7 +44,12 @@ void Frame::on_idle(wxIdleEvent &event)
 {
     if (m_iterating)
     {
-        dynamical_system::Orbit orbit{dynamical_system::iterate(m_system, {0.1, 0.0, 0.0}, 0.01, 10)};
+        dynamical_system::Point3f state{0.1f, 0.0f, 0.0f};
+        float begin{0.0f};
+        float end{10.0f};
+        float dt{0.1f};
+        dynamical_system::Orbit orbit{dynamical_system::iterate(m_system, state, begin, end, dt)};
+        m_canvas->set_orbit(orbit);
         m_canvas->Refresh(false);
     }
     event.RequestMore();

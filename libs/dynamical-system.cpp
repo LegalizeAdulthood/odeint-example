@@ -5,15 +5,15 @@
 namespace dynamical_system
 {
 
-Orbit iterate(System system, const Point3d &initial, double dt, int steps)
+Orbit iterate( System system, const Point3f &initial, float begin, float end, float dt )
 {
     Orbit orbit;
-    const auto push_point = [&orbit](const Point3d &x, const double /* t */)
+    const auto push_point = [&orbit](const Point3f &x, const float /* t */)
     {
         orbit.emplace_back(x);
     };
 
-    Point3d state{initial};
+    Point3f state{initial};
     switch (system)
     {
     case System::NONE:
@@ -22,14 +22,14 @@ Orbit iterate(System system, const Point3d &initial, double dt, int steps)
     case System::LORENZ:
     {
         Lorenz lorenz;
-        boost::numeric::odeint::integrate(lorenz, state, 0.0, dt * steps, dt, push_point);
+        boost::numeric::odeint::integrate(lorenz, state, begin, end, dt, push_point);
         break;
     }
 
     case System::ROSSLER:
     {
         Rossler rossler;
-        boost::numeric::odeint::integrate(rossler, state, 0.0, dt * steps, dt, push_point);
+        boost::numeric::odeint::integrate(rossler, state, begin, end, dt, push_point);
         break;
     }
     }

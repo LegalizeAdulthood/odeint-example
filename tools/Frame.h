@@ -1,3 +1,5 @@
+#pragma once
+
 #include <dynamical-system/dynamical-system.h>
 
 #include <wx/wx.h>
