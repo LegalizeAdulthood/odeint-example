@@ -1,5 +1,7 @@
 #include "Canvas.h"
 
+#include <gl/glu.h>
+
 #include <algorithm>
 
 using namespace dynamical_system;
@@ -133,9 +135,6 @@ void Canvas::render()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
-    // Position camera to look at the attractor
-    glTranslatef(0.0f, 0.0f, -5.0f);
-    
     const auto length = [&](int index)
     {
         return m_max[index] - m_min[index];
@@ -145,14 +144,16 @@ void Canvas::render()
         return m_min[index] + length(index) / 2.0f;
     };
     
-    // Center the object at origin and scale to fit viewport
-    glTranslatef(-center(0), -center(1), -center(2));
+    gluLookAt(0.0, 0.0, 3.0, // Eye position
+        0.0, 0.0, 0.0,       // Look-at point
+        0.0, 1.0, 0.0);      // Up direction
     const float max_length = std::max({length(0), length(1), length(2)});
     if (max_length > 0.0f)  // Avoid division by zero
     {
-        const float factor{10.0f / max_length};
+        const float factor{4.0f / max_length};
         glScalef(factor, factor, factor);
     }
+    glTranslatef(-center(0), -center(1), -center(2));
 
     glLineWidth(1.0f);
     glBegin(GL_LINE_STRIP);
