@@ -1,6 +1,6 @@
 #include "Canvas.h"
 
-#include <gl/glu.h>
+#include <GL/glu.h>
 
 #include <algorithm>
 
