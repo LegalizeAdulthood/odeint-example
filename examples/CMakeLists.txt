@@ -1,6 +1,3 @@
-include(CheckLanguage)
-check_language(CUDA)
-
 find_package(Boost CONFIG REQUIRED COMPONENTS numeric_odeint)
 
 set(ODEINT_EXAMPLES_DIR "${CMAKE_SOURCE_DIR}/odeint/examples")
@@ -14,11 +11,6 @@ endfunction()
 function(add_boost_example number name)
     set(target "example-${number}-${name}")
     add_odeint_example("${target}" "${ODEINT_EXAMPLES_DIR}/${name}.cpp" "Examples")
-endfunction()
-
-function(add_boost_cuda_example number name)
-    set(target "example-cuda-${number}-${name}")
-    add_odeint_example("${target}" "${ODEINT_EXAMPLES_DIR}/thrust/${name}.cu" "Examples/CUDA")
 endfunction()
 
 add_boost_example(1 lorenz)
