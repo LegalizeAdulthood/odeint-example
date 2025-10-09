@@ -10,7 +10,7 @@
 namespace chaotic_attractor
 {
 
-class Canvas :public wxGLCanvas
+class Canvas : public wxGLCanvas
 {
 public:
     explicit Canvas(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint &pos = wxDefaultPosition,

@@ -5,7 +5,7 @@
 namespace dynamical_system
 {
 
-Orbit iterate( Attractor system, const Point3f &initial, float begin, float end, float dt )
+Orbit iterate(Attractor system, const Point3f &initial, float begin, float end, float dt)
 {
     Orbit orbit;
     const auto push_point = [&orbit](const Point3f &x, const float /* t */)

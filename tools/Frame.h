@@ -37,7 +37,7 @@ private:
     void on_rossler(wxCommandEvent &event);
     void on_start(wxCommandEvent &event);
     void on_stop(wxCommandEvent &event);
-    void set_system( dynamical_system::Attractor attractor );
+    void set_system(dynamical_system::Attractor attractor);
     void set_iterating(bool iterating);
 
     wxMenuItem *m_none;

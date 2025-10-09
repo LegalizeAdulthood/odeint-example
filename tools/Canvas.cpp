@@ -85,7 +85,7 @@ Canvas::Canvas(
 {
     // Create the context immediately after construction
     m_context = std::make_shared<wxGLContext>(this);
-    
+
     Bind(wxEVT_SIZE, &Canvas::on_size, this, wxID_ANY);
     Bind(wxEVT_PAINT, &Canvas::on_paint, this, wxID_ANY);
     Bind(wxEVT_ERASE_BACKGROUND, &Canvas::on_erase_background, this, wxID_ANY);
@@ -109,7 +109,7 @@ void Canvas::set_orbit(const Orbit &orbit)
         }
         m_min = min;
         m_max = max;
-        
+
         // Force immediate refresh
         Refresh(false);
         Update();
@@ -210,7 +210,7 @@ void Canvas::render()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
+
     const auto length = [&](int index)
     {
         return m_max[index] - m_min[index];
@@ -219,12 +219,12 @@ void Canvas::render()
     {
         return m_min[index] + length(index) / 2.0f;
     };
-    
+
     look_at(0.0f, 0.0f, 3.0f, // Eye position
         0.0f, 0.0f, 0.0f,     // Look-at point
         0.0f, 1.0f, 0.0f);    // Up direction
     const float max_length = std::max({length(0), length(1), length(2)});
-    if (max_length > 0.0f)  // Avoid division by zero
+    if (max_length > 0.0f) // Avoid division by zero
     {
         const float factor{4.0f / max_length};
         glScalef(factor, factor, factor);
