@@ -2,7 +2,7 @@
 
 # Boost.Odeint Example
 
-Sample code for the video Chaotic Attractors with Boost.Odeint.
+Sample code for the video [Chaotic Attractors with Boost.Odeint](https://www.youtube.com/watch?v=zpGx7sZvE0s).
 
 # Obtaining the Source
 
