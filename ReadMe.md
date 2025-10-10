@@ -4,6 +4,8 @@
 
 Sample code for the video [Chaotic Attractors with Boost.Odeint](https://www.youtube.com/watch?v=zpGx7sZvE0s).
 
+[![Lorenz attractor](Lorenz.thumb.png)](Lorenz.png) [![Rössler attractor](Rossler.thumb.png)](Rossler.png)
+
 # Obtaining the Source
 
 Use git to clone this repository, then update the vcpkg submodule to bootstrap
